@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Component</title>
+    <!-- Agrega el enlace a Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body style="background-color: #add8e6;"> <!-- Establece el color de fondo celeste -->
+
+    <!-- Encabezado con información del estudiante -->
+    <div class="container mt-3">
+        <h3 class="text-center">Universidad de las Fuerzas Armadas ESPE</h3>
+        <p class="text-center">Estudiante: Moreno Douglas</p>
+    </div>
+
+    <!-- Utiliza el nuevo componente CounterComponent -->
+    <div class="container mt-3">
+        <counter-component></counter-component>
+    </div>
+
+    <script>
+        // Define la clase CounterComponent
+        class CounterComponent extends HTMLElement {
+            constructor() {
+                super();
+                // Establece un estado interno para el contador
+                this._counter = 0;
+
+                // Crea los elementos del componente
+                this.container = document.createElement('div');
+                this.countParagraph = document.createElement('p');
+                this.incrementButton = document.createElement('button');
+                this.decrementButton = document.createElement('button');
+
+                // Agrega clases de Bootstrap directamente
+                this.container.classList.add('container', 'text-center', 'pt-4');
+                this.countParagraph.classList.add('display-4', 'text-success', 'mb-25'); // Cambia el color del texto a verde
+                this.incrementButton.classList.add('btn', 'btn-primary', 'btn-lg', 'mr-50'); // Cambia el color del botón de incremento a azul
+                this.decrementButton.classList.add('btn', 'btn-danger', 'btn-lg'); // Cambia el color del botón de decremento a rojo
+
+                // Establece estilos de fondo personalizados
+                this.container.style.backgroundColor = '#ffeaa7'; // Cambia el color de fondo del contenedor a amarillo claro
+                this.container.style.padding = '20px';
+
+                // Agrega los elementos al shadow DOM
+                this.container.appendChild(this.countParagraph);
+                this.container.appendChild(this.incrementButton);
+                this.container.appendChild(this.decrementButton);
+
+                // Adjunta el shadow DOM al componente
+                this.attachShadow({ mode: 'open' }).appendChild(this.container);
+
+                // Adjunta los listeners a los botones
+                this.incrementButton.addEventListener('click', () => {
+                    this.counter++; // Utiliza la propiedad getter y setter
+                });
+
+                this.decrementButton.addEventListener('click', () => {
+                    this.counter--; // Utiliza la propiedad getter y setter
+                });
+            }
+
+            // Define la propiedad 'counter' con un getter y setter
+            get counter() {
+                return this._counter;
+            }
+
+            set counter(value) {
+                this._counter = value;
+                this.render();
+            }
+
+            connectedCallback() {
+                this.render();
+            }
+
+            render() {
+                // Actualiza el contenido de los elementos
+                this.countParagraph.textContent = `Count: ${this.counter}`;
+                this.incrementButton.textContent = '+';
+                this.decrementButton.textContent = '-';
+            }
+        }
+
+        customElements.define('counter-component', CounterComponent);
+    </script>
+
+    <!-- Bootstrap JavaScript y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
